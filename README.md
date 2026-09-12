@@ -1,35 +1,35 @@
 # Monitor Mirror
 
-Mirrors a center crop of one monitor onto another, live (GPU capture via DXGI Desktop Duplication, scaled with Direct2D). No dotnet install needed if you're using the published exe — it bundles the runtime.
+Mirrors live center crop of one monitor onto another (DXGI Desktop Duplication + Direct2D). Published exe self-contained, no dotnet install needed.
 
-## Using it
+## Usage
 
-Run `MonitorMirror.exe`. A settings window opens:
+Run `MonitorMirror.exe`. Settings window opens:
 
-1. **Monitor picker** — top row shows a live thumbnail of every monitor (refreshes every second, pauses while the window is minimized). **Left-click** a monitor to set it as the **source** (highlighted green). **Right-click** a monitor to set it as the **output** (highlighted blue) — this is the monitor that gets covered by the mirrored image.
-2. **Crop size slider** — how much of the source monitor to capture, centered, as a percentage of its own width/height (10% = a small centered box, 100% = the whole screen).
-3. **Warp mode** — what to do when the cropped region's aspect ratio doesn't match the output monitor's:
-   - **None** — scale to fit, no distortion, no cropping. Leaves black bars on the mismatched side(s).
-   - **Stretch** — fills the entire output, may distort (non-uniform scaling).
-   - **Fill** — scales up and crops off whatever sticks out, so it fills the output with no distortion and no bars.
-4. **Toggle** (hotkey) —
-   - **Enable** — master on/off for the hotkey feature.
-   - **Hold** — checked (default): the mirror is only visible while the hotkey is held down, and hides the instant you release it. Unchecked: it behaves as a plain on/off switch — press once to show, press again to hide.
-   - **Set Hotkey** — click it, then either press a key combo (e.g. Ctrl+F9) or click/hold a mouse button (e.g. Right Click, or Ctrl+Right Click). Works globally, system-wide, even when this window isn't focused — it only takes effect while mirroring is running (see below).
-5. **Start Mirroring** — actually starts the capture (creates the GPU duplication/swapchain — this is the "heavy" step). Once running, the hotkey just shows/hides the already-running mirror, so it responds instantly with no reinit lag. Click "Stop Mirroring" to fully tear it down.
+1. **Monitor picker**: top row shows live thumbnails (refresh every second, pause while minimized). Left-click sets source (green). Right-click sets output (blue), monitor covered by mirror.
+2. **Crop size slider**: percent of source monitor captured, centered. 10% = small box, 100% = full screen.
+3. **Warp mode**, for aspect mismatch between crop and output:
+   - None: scale to fit, no distortion, black bars on mismatched side(s).
+   - Stretch: fills output, may distort.
+   - Fill: crops overflow, fills output, no distortion, no bars.
+4. **Toggle** (hotkey):
+   - Enable: master on/off.
+   - Hold (default on): mirror shows only while hotkey held, hides on release. Off: plain on/off switch, press once show, again hide.
+   - Set Hotkey: click, then press key combo (Ctrl+F9) or mouse button (Right Click, Ctrl+Right Click). Works system-wide, active only while mirroring running.
+5. **Start Mirroring**: starts capture (GPU duplication/swapchain, heavy step). Hotkey then just shows/hides instantly, no reinit lag. Stop Mirroring tears it down.
 
-Crop size and warp mode can be changed live while mirroring is running. Changing the source/output monitor selection requires stopping and starting again.
+Crop size and warp mode change live while running. Changing source/output monitor needs stop/start.
 
-Note: binding a mouse button with no modifier (e.g. plain Left Click) means every click of that button anywhere on your system will trigger it — use a modifier (Ctrl/Alt/Shift+click) if that's too broad.
+Binding mouse button with no modifier (plain Left Click) triggers on every click of that button system-wide. Use modifier (Ctrl/Alt/Shift+click) to avoid that.
 
 ### Minimize to tray
 
-**Minimizing** the settings window sends it to the system tray instead of the taskbar (mirroring, if running, keeps going). Double-click the tray icon, or right-click it and choose "Show Settings", to bring the window back. **Closing** the window (the X button) fully exits the app.
+Minimizing sends settings window to tray. Mirroring, if running, keeps going. Double-click tray icon, or right-click and pick "Show Settings", brings it back. Closing (X button) exits fully.
 
-### Dark theme
+### Theme
 
-Light/Dark slider, top-right of the window. Defaults to dark, persists across runs.
+Light/Dark slider, top-right. Defaults dark, persists.
 
-### Settings are remembered
+### Settings saved
 
-Source/output monitor, crop size, warp mode, hotkey binding, enable/hold, and theme are all saved to `%AppData%\MonitorMirror\settings.json` and restored next launch. Monitors are matched by their device name, so if you unplug/replug or reorder monitors, the saved source/output selection still finds the right one (or falls back to "none selected" if that monitor's gone).
+Source/output monitor, crop size, warp mode, hotkey, enable/hold, theme: all saved to `%AppData%\MonitorMirror\settings.json`, restored next launch. Monitors matched by device name, so unplug/reorder safe (falls back to none-selected if monitor gone).
